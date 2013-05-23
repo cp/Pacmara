@@ -1,0 +1,19 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+    "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+  <head>
+    <title><%= settings.title %></title>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+  </head>
+  
+  <body>
+  	<div id="header">
+		  <h1 id="site-title"><a href="/"><%= settings.title %></a></h1>
+		  <span id="description"><%= settings.description %></span>
+  	</div>
+		<%= yield %>
+		<div id="footer">
+			<a href="/post">Add a post</a>
+		</div>
+  </body>
+</html>
