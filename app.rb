@@ -1,7 +1,7 @@
 require 'sinatra'
 require 'redis'
 require 'json'
-require 'redcarpet'
+require 'hiredis'
 
 ENV['REDISTOGO_URL'] = 'redis://localhost:6379' unless ENV['REDISTOGO_URL']
 uri = URI.parse(ENV['REDISTOGO_URL'])
@@ -22,7 +22,7 @@ helpers do
 end
 
 get '/' do
-	@posts = $redis.keys('*')
+	@posts = $redis.LRANGE('posts', '-100', '100').reverse
 	erb :index
 end
 
@@ -36,10 +36,12 @@ post '/post' do
 		:body => params[:body],
 		:title => params[:title],
 		:slug => params[:slug],
-		:time => Time.now.strftime("%A %B %e, %Y")
+		:time => Time.now.to_i,
+		:formatted_time => Time.now.strftime("%A %B %e, %Y")
 	}
 	
 	$redis.set(params[:slug], post.to_json) #Save the JSON in Redis, with the key being the slug.
+	$redis.RPUSH('posts', params[:slug]) #Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
 	
 	redirect "/#{params[:slug]}" #Redirect to the post after posting it
 end

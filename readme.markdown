@@ -1,7 +1,7 @@
 Pacmara
 ===
 
-Pacmara is a simple blog engine built with [Sinatra](http://www.sinatrarb.com/) and [Redis](http://redis.io/). It is well documented and commented, perfect for beginning with Sinatra, and/or Redis. Pacmars is a work in progress and is constantly being updated. Contributions appreciated.
+Pacmara is a simple blog engine built with [Sinatra](http://www.sinatrarb.com/) and [Redis](http://redis.io/). It is well documented and commented, perfect for beginning with Sinatra, and/or Redis. Pacmara is a work in progress and is constantly being updated. Contributions appreciated.
 
 Comes included with a basic template, your's free once you clone this repo. S&H not included.
 
