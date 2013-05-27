@@ -10,6 +10,8 @@ $redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 configure do
 	set :title, "This is my blog"
 	set :description, "Building a blog with redis."
+	set :enable_disqus, true # Set this to true if you want to enable Disqus comments on your posts
+	set :disqus_shortname, "XXXXXXXXXXX" # Your Disqus shortname
 end
 
 helpers do
@@ -40,13 +42,13 @@ post '/post' do
 		:formatted_time => Time.now.strftime("%A %B %e, %Y")
 	}
 	
-	$redis.set(params[:slug], post.to_json) #Save the JSON in Redis, with the key being the slug.
-	$redis.RPUSH('posts', params[:slug]) #Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
+	$redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
+	$redis.RPUSH('posts', params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
 	
-	redirect "/#{params[:slug]}" #Redirect to the post after posting it
+	redirect "/#{params[:slug]}" # Redirect to the post after posting it
 end
 
-get '/:slug' do #AKA the post page
+get '/:slug' do # AKA the post page
 	@post = JSON.parse($redis.get(params[:slug]))
 	
 	erb :post
