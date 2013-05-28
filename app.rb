@@ -1,7 +1,6 @@
 require 'sinatra'
 require 'redis'
 require 'json'
-require 'hiredis'
 
 ENV['REDISTOGO_URL'] = 'redis://localhost:6379' unless ENV['REDISTOGO_URL']
 uri = URI.parse(ENV['REDISTOGO_URL'])
