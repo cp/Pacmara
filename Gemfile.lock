@@ -20,4 +20,5 @@ PLATFORMS
 DEPENDENCIES
   json
   redis
+  sinatra
   sinatra-flash
