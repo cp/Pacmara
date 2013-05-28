@@ -3,7 +3,7 @@
 <html>
   <head>
     <title><%= @page_title %></title>
-    <link rel="stylesheet" type="text/css" media="screen" href="style.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="/style.css">
   </head>
   
   <body>
@@ -13,7 +13,11 @@
   	</div>
 		<%= yield %>
 		<div id="footer">
-			<a href="/post">Add a post</a>
+			<% if current_user %>
+				<p>Signed in as <%= current_user %> | <a href="/signout">logout</a> | <a href="/post/new">New Post</a></p>
+		<% else %>
+		  <p><a href="/signin">Sign In</a></p>
+		<% end %>
 		</div>
   </body>
 </html>
