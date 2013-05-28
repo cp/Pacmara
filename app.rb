@@ -10,8 +10,12 @@ uri = URI.parse(ENV['REDISTOGO_URL'])
 configure do
 	set :title, "This is my blog"
 	set :description, "Building a blog with redis."
+	
+	# Disqus commenting
 	set :enable_disqus, true # Set this to true if you want to enable Disqus comments on your posts
 	set :disqus_shortname, "XXXXXXXXXXX" # Your Disqus shortname
+
+	# Dashboard authentication
 	set :username, "admin"
 	set :password, "password"
 end
@@ -59,16 +63,13 @@ get '/' do
 end
 
 get '/post/new' do
-	if current_user
+		redirect '/signin' unless current_user
 		@page_title = "New Post - #{settings.title}"
 		erb :new
-	else 
-		redirect '/signin'
-	end
 end
 
 post '/post' do
-	if current_user
+		redirect '/signin' unless current_user
 		post = {
 			:body => params[:body],
 			:title => params[:title],
@@ -81,9 +82,6 @@ post '/post' do
 		@@redis.RPUSH('posts', params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
 		
 		redirect "/#{params[:slug]}" # Redirect to the post after posting it
-	else 
-		redirect '/signin'
-	end
 end
 
 get '/:slug' do # AKA the post page

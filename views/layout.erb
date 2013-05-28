@@ -14,9 +14,9 @@
 		<%= yield %>
 		<div id="footer">
 			<% if current_user %>
-				<p>Signed in as <%= current_user %> | <a href="/signout">logout</a> | <a href="/post/new">New Post</a></p>
+				<p>Signed in as <%= current_user %> - <a href="/signout">logout</a> - <a href="/post/new">New Post</a></p>
 		<% else %>
-		  <p><a href="/signin">Sign In</a></p>
+		  <p>Powered by <a href="https://github.com/ColbyAley/Pacmara">Pacmara</a> - <a href="/signin">Admin sign in</a></p>
 		<% end %>
 		</div>
   </body>
