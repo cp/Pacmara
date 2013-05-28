@@ -14,6 +14,10 @@ a {
 	color: #404040;
 }
 
+a:hover {
+	color: #757575;
+}
+
 /* Header */
 
 #header {
@@ -46,12 +50,14 @@ a {
 #post {
 	line-height: 1.5em;
 	font-size: 18px;
+	margin-bottom: 60px;
 }
 
 #post-title {
 	font-size: 36px;
 	margin-bottom: -10px;
 	color: #363636;
+	line-height: 1.2em;
 }
 
 #post-time {
@@ -60,8 +66,25 @@ a {
 	color: #707070;
 }
 
-p.post_content {
+.post_content {
 	text-align: left;
+}
+
+/* New post page */
+
+#new_post {
+	margin-bottom: 30px;
+}
+
+#new_post_submit {
+	margin-top: 20px;
+}
+
+.new_post_field {
+	width: 150px;
+	border: 2px solid #000;
+	border-radius: 10px;
+	padding: 5px;
 }
 
 /* Footer */

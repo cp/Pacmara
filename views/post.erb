@@ -1,7 +1,9 @@
 <div id="post">
 	<h1 id="post-title"><%= @post['title'] %></h1>
 	<p id="post-time"><%= @post['formatted_time'] %></p>
-	<p class="post_content"><%= @post['body'] %></p>
+	<div class="post_content">
+		<%= @post['body'] %>
+	</div>
 </div>
 
 <% if settings.enable_disqus %>

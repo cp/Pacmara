@@ -1,6 +1,9 @@
 <% @posts.each do |post| %>
 	<div id="post">
-		<h2><a href="<%= post %>"><%= json_parse(post)['title'] %></a></h2>
-		<p class="post_content"><%= json_parse(post)['body'] %></p>
+		<h1 id="post-title"><a href="<%= post %>"><%= json_parse(post)['title'] %></a></h1>
+		<p id="post-time"><%= json_parse(post)['formatted_time'] %></p>
+		<div class="post_content">
+			<%= json_parse(post)['body'] %>
+		</div>
 	</div>
 <% end %>
