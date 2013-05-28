@@ -1,13 +1,13 @@
 <div id="post">
 	<h1 id="post-title"><%= @post['title'] %></h1>
 	<p id="post-time"><%= @post['formatted_time'] %></p>
-	<span><%= @post['body'] %></span>
+	<p class="post_content"><%= @post['body'] %></p>
 </div>
 
 <% if settings.enable_disqus %>
 <div id="disqus_thread"></div>
   <script type="text/javascript">
-      var disqus_shortname = '<%= settings.disqus_shortname %>'; // required: replace example with your forum shortname
+      var disqus_shortname = '<%= settings.disqus_shortname %>'; // Configure this in your app.rb settings
 
       /* * * DON'T EDIT BELOW THIS LINE * * */
       (function() {

@@ -60,6 +60,10 @@ a {
 	color: #707070;
 }
 
+p.post_content {
+	text-align: left;
+}
+
 /* Footer */
 
 #footer {

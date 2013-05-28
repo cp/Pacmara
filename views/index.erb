@@ -1,6 +1,6 @@
 <% @posts.each do |post| %>
 	<div id="post">
-		<h2><a href="<%= post %>"><%= get_title(post) %></a></h2>
-		<p><%= get_body(post) %></p>
+		<h2><a href="<%= post %>"><%= json_parse(post)['title'] %></a></h2>
+		<p class="post_content"><%= json_parse(post)['body'] %></p>
 	</div>
 <% end %>
