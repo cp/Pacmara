@@ -74,19 +74,20 @@ get '/post/new' do
 end
 
 post '/post' do
-		redirect '/signin' unless current_user
-		post = {
-			:body => params[:body],
-			:title => params[:title],
-			:slug => params[:slug],
-			:time => Time.now.to_i,
-			:formatted_time => Time.now.strftime("%A %B %e, %Y")
-		}
-		
-		@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
-		@@redis.RPUSH('posts', params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
-		
-		redirect "/#{params[:slug]}" # Redirect to the post after posting it
+	redirect '/signin' unless current_user
+	
+	post = {
+		:body => params[:body],
+		:title => params[:title],
+		:slug => params[:slug],
+		:time => Time.now.to_i,
+		:formatted_time => Time.now.strftime("%A %B %e, %Y")
+	}
+	
+	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
+	@@redis.RPUSH('posts', params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
+	
+	redirect "/#{params[:slug]}" # Redirect to the post after posting it
 end
 
 get '/:slug' do # AKA the post page

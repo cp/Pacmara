@@ -1,12 +1,20 @@
 <script src="/ckeditor/ckeditor.js"></script>
+<script src="http://code.jquery.com/jquery-1.10.0.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() { 
+  $('#form-title').keyup(function () {
+  	$('#form-slug').val($('#form-title').val().replace(/\s+/g, '-').toLowerCase());
+  });
+});
+</script>
 <div id="form">
 	<h1 id="title">Post.</h1>
 	<form action="/post" method="post">
 		<div id="new-post">
-			<input id="slug" placeholder="slug" name="slug" class="new-post-field">
-			<input id="title" placeholder="This is my blog post" name="title" class="new-post-field">
+			<input id="form-title" placeholder="This is my blog post" name="title" class="new-post-field">
+			<input id="form-slug" placeholder="slug" name="slug" name="slug" class="new-post-field">
 		</div>
-		<textarea id="body" name="body"><p>What's on your mind?</p></textarea>
+		<textarea id="body" name="body"><p></p></textarea>
 		<script>CKEDITOR.replace( 'body' ); </script>
 		<input type="submit" id="new-post-submit">
 	</form>
