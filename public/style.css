@@ -50,7 +50,7 @@ a:hover {
 #post {
 	line-height: 1.5em;
 	font-size: 18px;
-	margin-bottom: 60px;
+	margin-bottom: 20px;
 }
 
 #post-title {
@@ -68,6 +68,19 @@ a:hover {
 
 .post_content {
 	text-align: left;
+}
+
+#post_options {
+	border: 2px solid #d4d4d4;
+	padding: 5px;
+	text-align: center;
+	background: #f9f9f9;
+	margin-bottom: 15px;
+	font-size: 1.1em
+}
+
+.twitter-follow-button, .twitter-share-button {
+	margin-bottom: -3px;
 }
 
 /* New post page */

@@ -17,6 +17,10 @@ configure do
 	# Dashboard authentication
 	set :username, "admin"
 	set :password, "password"
+	
+	# Twitter post sharing
+	set :twitter_username, "aley"
+	set :enable_twitter_sharing, true # Set to false if you don't want to become famous on Twitter.
 end
 
 enable :sessions
@@ -88,4 +92,11 @@ get '/:slug' do # AKA the post page
 	
 	@page_title = "#{@post['title']} - #{settings.title}"
 	erb :post
+end
+
+get '/post/:slug/delete' do
+	redirect '/signin' unless current_user
+	@@redis.DEL(params[:slug])
+	@@redis.lrem('posts', 0, params[:slug])
+	redirect '/'
 end
