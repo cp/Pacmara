@@ -5,19 +5,19 @@
     <title><%= @page_title %></title>
     <link rel="stylesheet" type="text/css" media="screen" href="/style.css">
   </head>
-  
   <body>
   	<div id="header">
 		  <h1 id="site-title"><a href="/"><%= settings.title %></a></h1>
 		  <span id="description"><%= settings.description %></span>
   	</div>
+  	<%= flash[:error]; flash[:error] %>
 		<%= yield %>
 		<div id="footer">
 			<% if current_user %>
-				<p>Signed in as <%= current_user %> - <a href="/signout">logout</a> - <a href="/post/new">New Post</a></p>
-		<% else %>
-		  <p>Powered by <a href="https://github.com/ColbyAley/Pacmara">Pacmara</a> - <a href="/signin">Admin sign in</a></p>
-		<% end %>
+				<p>Logged in - <a href="/logout">logout</a> - <a href="/post/new">New Post</a></p>
+			<% else %>
+		  	<p>Powered by <a href="https://github.com/ColbyAley/Pacmara">Pacmara</a> - <a href="/login">Log in</a></p>
+		  <% end %>
 		</div>
   </body>
 </html>

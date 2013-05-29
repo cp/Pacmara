@@ -1,19 +1,19 @@
 <div id="post">
 	<h1 id="post-title"><%= @post['title'] %></h1>
 	<p id="post-time"><%= @post['formatted_time'] %></p>
-	<div class="post_content">
+	<div class="post-content">
 		<%= @post['body'] %>
 	</div>
 </div>
 <% if current_user %>
-	<p id="post_options"><a href="/post/<%= @post['slug'] %>/delete">Delete this post.</a></p>
+	<p id="post-options"><a href="/post/<%= @post['slug'] %>/delete">Delete this post.</a></p>
 <% elsif settings.enable_twitter_sharing %>
-	<p id="post_options">You should <a href="https://twitter.com/aley" class="twitter-follow-button" data-show-count="false">Follow @<%= settings.twitter_username %> </a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> on Twitter and <a href="https://twitter.com/share" class="twitter-share-button" data-via="<%= settings.twitter_username %>" data-count="none">Tweet</a>
+	<p id="post-options">You should <a href="https://twitter.com/aley" class="twitter-follow-button" data-show-count="false">Follow @<%= settings.twitter_username %> </a><script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> on Twitter and <a href="https://twitter.com/share" class="twitter-share-button" data-via="<%= settings.twitter_username %>" data-count="none">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script> this post.</p>
 <% end %>
 
 <% if settings.enable_disqus %>
-<div id="disqus_thread"></div>
+<div id="disqus-thread"></div>
   <script type="text/javascript">
       var disqus_shortname = '<%= settings.disqus_shortname %>'; // Configure this in your app.rb settings
 

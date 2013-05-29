@@ -9,14 +9,8 @@ html {
 	max-width: 700px;
 }
 
-a {
-	text-decoration: none;
-	color: #404040;
-}
-
-a:hover {
-	color: #757575;
-}
+a { text-decoration: none; color: #404040; }
+a:hover { color: #757575; }
 
 /* Header */
 
@@ -27,23 +21,14 @@ a:hover {
 	font-size: 2em;
 }
 
-#header a:hover {
-	color: #ff4747;
-}
-
-#header a:active {
-	color: #404040;
-}
+#header a:hover { color: #ff4747; }
 
 #site-title {
-	text-transform:uppercase;
-	color: #404040;
+	text-transform:	uppercase;
 	margin-bottom: 0px;
 }
 
-#description {
-	color: #707070;
-}
+#description { color: #707070; }
 
 /* Posts, index */
 
@@ -66,11 +51,9 @@ a:hover {
 	color: #707070;
 }
 
-.post_content {
-	text-align: left;
-}
+.post-content { text-align: left; }
 
-#post_options {
+#post-options {
 	border: 2px solid #d4d4d4;
 	padding: 5px;
 	text-align: center;
@@ -85,15 +68,11 @@ a:hover {
 
 /* New post page */
 
-#new_post {
-	margin-bottom: 30px;
-}
+#new-post { margin-bottom: 30px; }
 
-#new_post_submit {
-	margin-top: 20px;
-}
+#new-post-submit { margin-top: 20px; }
 
-.new_post_field {
+.new-post-field {
 	width: 150px;
 	border: 2px solid #000;
 	border-radius: 10px;
@@ -104,7 +83,6 @@ a:hover {
 
 #footer {
 	border-top: 2px dashed #404040;
-	padding-top: 10px;
 	padding-bottom: 20px;
 	margin-top: 40px;
 }

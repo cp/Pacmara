@@ -1,12 +1,13 @@
 require 'sinatra'
 require 'redis'
 require 'json'
+require 'sinatra/flash'
 
 ENV['REDISTOGO_URL'] = 'redis://localhost:6379' unless ENV['REDISTOGO_URL']
 uri = URI.parse(ENV['REDISTOGO_URL'])
 @@redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
-configure do
+configure do # Customize your blog.
 	set :title, "This is my blog"
 	set :description, "Building a blog with redis."
 	
@@ -23,7 +24,7 @@ configure do
 	set :enable_twitter_sharing, true # Set to false if you don't want to become famous on Twitter.
 end
 
-enable :sessions
+enable :sessions # You should leave this alone.
 
 helpers do    
 	def current_user
@@ -33,21 +34,22 @@ end
 
 # User authentication
 
-get '/signin' do
-	@page_title = "Sign in - #{settings.title}"
-	erb :signin
+get '/login' do
+	@page_title = "Log in - #{settings.title}"
+	erb :login
 end
 
-post '/signin' do
+post '/login' do
 	if params[:username] == settings.username && params[:password] == settings.password
 		session['user'] = settings.username
 		redirect '/'
 	else
-		flash.now[:incorrect] = "Either your username or password was incorrect."
+		flash[:error] = "Either your username or password was incorrect."
+		redirect '/login'
 	end
 end
 
-get '/signout' do
+get '/logout' do
 	session['user'] = nil
 	redirect "/"
 end

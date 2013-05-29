@@ -5,6 +5,8 @@ Pacmara is a simple blog engine built with [Sinatra](http://www.sinatrarb.com/) 
 
 Comes included with a basic template, your's free once you clone this repo. S&H not included.
 
+Try Pacmara out at [pacmara.herokuapp.com](http://pacmara.herokuapp.com).
+
 ##Requirements
 Pacmara requires a either a [RedisToGo](http://redistogo.com/) account, or Redis running on your local machine.
 
@@ -20,8 +22,7 @@ Installation
 Todo
 ------------
 
-- Markdown
-- User authentication
+- Post editing
 
 Contributing
 ------------
