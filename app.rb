@@ -30,6 +30,10 @@ helpers do
 	def current_user
   	@current_user ||= session[:user].capitalize if session[:user]
   end
+  
+  def json_parse(slug)
+		JSON.parse(@@redis.get(slug))
+	end
 end
 
 # User authentication
@@ -58,10 +62,6 @@ end
 
 get '/' do
 	@posts = @@redis.LRANGE('posts', '-100', '100').reverse
-	
-	def json_parse(slug)
-		JSON.parse(@@redis.get(slug))
-	end
 	
 	@page_title = settings.title
 	erb :index
