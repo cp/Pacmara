@@ -10,6 +10,7 @@ uri = URI.parse(ENV['REDISTOGO_URL'])
 configure do # Customize your blog.
 	set :title, "This is my blog"
 	set :description, "Building a blog with redis."
+	set :db_list_title, "posts" # Change this in the case that you are using one Redis database for multiple blogs.
 	
 	# Disqus commenting
 	set :enable_disqus, true # Set this to true if you want to enable Disqus comments on your posts
@@ -66,12 +67,12 @@ end
 get '/post/:slug/delete' do
 	redirect '/login' unless current_user
 	@@redis.DEL(params[:slug])
-	@@redis.lrem('posts', 0, params[:slug])
+	@@redis.lrem(settings.db_list_title, 0, params[:slug])
 	redirect '/'
 end
 
 get '/' do
-	@posts = @@redis.LRANGE('posts', '-100', '100').reverse
+	@posts = @@redis.LRANGE(settings.db_list_title, '-100', '100').reverse
 	
 	@page_title = settings.title
 	erb :index
@@ -95,7 +96,7 @@ post '/post/new' do
 	}
 	
 	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
-	@@redis.RPUSH('posts', params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
+	@@redis.RPUSH(settings.db_list_title, params[:slug]) # Ok, now we'll append the post slug to a list, for easy sorting on the homepage.
 	
 	redirect "/#{params[:slug]}" # Redirect to the post after posting it
 end
@@ -114,8 +115,8 @@ post '/post/edit' do
 	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
 	if params[:slug] != params['old-slug']
 		@@redis.DEL(params['old-slug'])
-		@@redis.lrem('posts', 0, params['old-slug'])
-		@@redis.RPUSH('posts', params[:slug])
+		@@redis.lrem(settings.db_list_title, 0, params['old-slug'])
+		@@redis.RPUSH(settings.db_list_title, params[:slug])
 	end
 	
 	redirect "/#{params[:slug]}" # Redirect to the post after posting it

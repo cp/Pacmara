@@ -15,14 +15,20 @@ Pacmara requires a either a [RedisToGo](http://redistogo.com/) account, or Redis
 Installation
 ------------
 
-`>>> bundle`
+    $ bundle
+    $ shotgun
 
-`>>> shotgun app.rb`
+Heroku Deployment 
+------------
+
+    $ heroku login
+    $ heroku create
+    $ git push heroku master
+    $ heroku config:set REDISTOGO_URL=http://YOUR_REDISTOGO_URL:3030
     
 Todo
 ------------
 
-- Post editing
 
 Contributing
 ------------
