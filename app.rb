@@ -36,25 +36,9 @@ helpers do
 	end
 end
 
-get '/:slug' do # AKA the post page
-	@post = JSON.parse(@@redis.get(params[:slug]))
-	
-	@page_title = "#{@post['title']} - #{settings.title}"
-	erb :post
-end
-
-get '/post/:slug/edit' do
-	redirect '/login' unless current_user
-	@post = JSON.parse(@@redis.get(params[:slug]))
-	@page_title = "Editing #{@post['title']} - #{settings.title}"
-	erb :edit
-end
-
-get '/post/:slug/delete' do
-	redirect '/login' unless current_user
-	@@redis.DEL(params[:slug])
-	@@redis.lrem('posts', 0, params[:slug])
-	redirect '/'
+get '/logout' do
+	session['user'] = nil
+	redirect "/"
 end
 
 get '/login' do
@@ -72,9 +56,18 @@ post '/login' do
 	end
 end
 
-get '/logout' do
-	session['user'] = nil
-	redirect "/"
+get '/post/:slug/edit' do
+	redirect '/login' unless current_user
+	@post = JSON.parse(@@redis.get(params[:slug]))
+	@page_title = "Editing #{@post['title']} - #{settings.title}"
+	erb :edit
+end
+
+get '/post/:slug/delete' do
+	redirect '/login' unless current_user
+	@@redis.DEL(params[:slug])
+	@@redis.lrem('posts', 0, params[:slug])
+	redirect '/'
 end
 
 get '/' do
@@ -119,6 +112,18 @@ post '/post/edit' do
 	}
 	
 	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
+	if params[:slug] != params['old-slug']
+		@@redis.DEL(params['old-slug'])
+		@@redis.lrem('posts', 0, params['old-slug'])
+		@@redis.RPUSH('posts', params[:slug])
+	end
 	
 	redirect "/#{params[:slug]}" # Redirect to the post after posting it
+end
+
+get '/:slug' do # AKA the post page
+	@post = JSON.parse(@@redis.get(params[:slug]))
+	
+	@page_title = "#{@post['title']} - #{settings.title}"
+	erb :post
 end

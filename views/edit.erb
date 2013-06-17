@@ -5,6 +5,7 @@
 		<div id="new-post">
 			<input id="form-title" value="<%= @post['title'] %>" placeholder="Post Title" name="title" class="new-post-field">
 			<input id="form-slug" value="<%= @post['slug'] %>" placeholder="URL Slug" name="slug" name="slug" class="new-post-field">
+			<input type="hidden" value="<%= params[:slug] %>" name="old-slug" name="old-slug">
 		</div>
 		<textarea id="body" name="body"><%= @post['body'] %></textarea>
 		<script>CKEDITOR.replace( 'body' ); </script>
