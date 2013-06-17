@@ -36,7 +36,26 @@ helpers do
 	end
 end
 
-# User authentication
+get '/:slug' do # AKA the post page
+	@post = JSON.parse(@@redis.get(params[:slug]))
+	
+	@page_title = "#{@post['title']} - #{settings.title}"
+	erb :post
+end
+
+get '/post/:slug/edit' do
+	redirect '/login' unless current_user
+	@post = JSON.parse(@@redis.get(params[:slug]))
+	@page_title = "Editing #{@post['title']} - #{settings.title}"
+	erb :edit
+end
+
+get '/post/:slug/delete' do
+	redirect '/login' unless current_user
+	@@redis.DEL(params[:slug])
+	@@redis.lrem('posts', 0, params[:slug])
+	redirect '/'
+end
 
 get '/login' do
 	@page_title = "Log in - #{settings.title}"
@@ -58,8 +77,6 @@ get '/logout' do
 	redirect "/"
 end
 
-# Everything else
-
 get '/' do
 	@posts = @@redis.LRANGE('posts', '-100', '100').reverse
 	
@@ -68,13 +85,13 @@ get '/' do
 end
 
 get '/post/new' do
-		redirect '/signin' unless current_user
+		redirect '/login' unless current_user
 		@page_title = "New Post - #{settings.title}"
 		erb :new
 end
 
-post '/post' do
-	redirect '/signin' unless current_user
+post '/post/new' do
+	redirect '/login' unless current_user
 	
 	post = {
 		:body => params[:body],
@@ -90,16 +107,18 @@ post '/post' do
 	redirect "/#{params[:slug]}" # Redirect to the post after posting it
 end
 
-get '/:slug' do # AKA the post page
-	@post = JSON.parse(@@redis.get(params[:slug]))
+post '/post/edit' do
+	redirect '/login' unless current_user
 	
-	@page_title = "#{@post['title']} - #{settings.title}"
-	erb :post
-end
-
-get '/post/:slug/delete' do
-	redirect '/signin' unless current_user
-	@@redis.DEL(params[:slug])
-	@@redis.lrem('posts', 0, params[:slug])
-	redirect '/'
+	post = {
+		:body => params[:body],
+		:title => params[:title],
+		:slug => params[:slug],
+		:time => Time.now.to_i,
+		:formatted_time => Time.now.strftime("%A %B %e, %Y")
+	}
+	
+	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
+	
+	redirect "/#{params[:slug]}" # Redirect to the post after posting it
 end

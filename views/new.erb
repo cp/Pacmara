@@ -9,10 +9,10 @@ $(document).ready(function() {
 </script>
 <div id="form">
 	<h1 id="title">Post.</h1>
-	<form action="/post" method="post">
+	<form action="/post/new" method="post">
 		<div id="new-post">
-			<input id="form-title" placeholder="This is my blog post" name="title" class="new-post-field">
-			<input id="form-slug" placeholder="slug" name="slug" name="slug" class="new-post-field">
+			<input id="form-title" placeholder="Post Title" name="title" class="new-post-field">
+			<input id="form-slug" placeholder="URL Slug" name="slug" name="slug" class="new-post-field">
 		</div>
 		<textarea id="body" name="body"><p></p></textarea>
 		<script>CKEDITOR.replace( 'body' ); </script>
