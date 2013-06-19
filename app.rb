@@ -1,35 +1,15 @@
-require 'sinatra'
-require 'redis'
-require 'json'
-require 'sinatra/flash'
+%w{sinatra redis json sinatra/flash redis_pagination}.each { |x| require x }
 
 ENV['REDISTOGO_URL'] = 'redis://localhost:6379' unless ENV['REDISTOGO_URL']
 uri = URI.parse(ENV['REDISTOGO_URL'])
 @@redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
-configure do # Customize your blog.
-	set :title, "This is my blog"
-	set :description, "Building a blog with redis."
-	set :db_list_title, "posts" # Change this in the case that you are using one Redis database for multiple blogs.
-	
-	# Disqus commenting
-	set :enable_disqus, true # Set this to true if you want to enable Disqus comments on your posts
-	set :disqus_shortname, "XXXXXXXXXXX" # Your Disqus shortname
-
-	# Dashboard authentication
-	set :username, "admin"
-	set :password, "password"
-	
-	# Twitter post sharing
-	set :twitter_username, "aley"
-	set :enable_twitter_sharing, true # Set to false if you don't want to become famous on Twitter.
-end
-
+require_relative 'configure.rb'
 enable :sessions # You should leave this alone.
 
 helpers do    
 	def current_user
-  	@current_user ||= session[:user].capitalize if session[:user]
+  	@current_user = session[:user].capitalize if session[:user]
   end
   
   def json_parse(slug)
@@ -72,8 +52,10 @@ get '/post/:slug/delete' do
 end
 
 get '/' do
-	@posts = @@redis.LRANGE(settings.db_list_title, '-100', '100').reverse
-	
+	@list = RedisPagination.paginate(settings.db_list_title)
+	params[:page] ||= 1
+	if params[:page].to_i > @list.total_pages then redirect "?page=#{@list.total_pages}" end
+	@posts = @list.page(params[:page].to_i)
 	@page_title = settings.title
 	erb :index
 end
@@ -108,8 +90,6 @@ post '/post/edit' do
 		:body => params[:body],
 		:title => params[:title],
 		:slug => params[:slug],
-		:time => Time.now.to_i,
-		:formatted_time => Time.now.strftime("%A %B %e, %Y")
 	}
 	
 	@@redis.set(params[:slug], post.to_json) # Save the JSON in Redis, with the key being the slug.
@@ -124,7 +104,6 @@ end
 
 get '/:slug' do # AKA the post page
 	@post = JSON.parse(@@redis.get(params[:slug]))
-	
 	@page_title = "#{@post['title']} - #{settings.title}"
 	erb :post
 end

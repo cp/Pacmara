@@ -1,4 +1,4 @@
-<% @posts.each do |post| %>
+<% @posts[:items].each do |post| %>
 	<div id="post">
 		<h1 id="post-title"><a href="<%= post %>"><%= json_parse(post)['title'] %></a></h1>
 		<p id="post-time"><%= json_parse(post)['formatted_time'] %></p>
@@ -7,3 +7,14 @@
 		</div>
 	</div>
 <% end %>
+
+<br>
+<span>Page <%= @posts[:current_page] %> of <%= @posts[:total_pages] %></span><br>
+<span>
+<% if @posts[:current_page] > 1 %>
+	<a style="float:left" href="?page=<%= @posts[:current_page] - 1 %>">Last Page</a>
+<% end %>
+<% if @posts[:current_page] < @posts[:total_pages] %>
+	<a style="float:right" href="?page=<%= @posts[:current_page] + 1 %>">Next Page</a>
+<% end %>
+</span>

@@ -53,15 +53,6 @@ a:hover { color: #757575; }
 
 .post-content { text-align: left; }
 
-#post-options {
-	border: 2px solid #d4d4d4;
-	padding: 5px;
-	text-align: center;
-	background: #f9f9f9;
-	margin-bottom: 15px;
-	font-size: 1.1em
-}
-
 .twitter-follow-button, .twitter-share-button {
 	margin-bottom: -3px;
 }
