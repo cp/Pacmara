@@ -1,5 +1,5 @@
 configure do # Customize your blog.
-	set :title, "This is my blog"
+	set :title, "Pacmara"
 	set :description, "Building a blog with redis."
 	set :db_list_title, "posts" # Change this in the case that you are using one Redis database for multiple blogs.
 	
@@ -14,9 +14,4 @@ configure do # Customize your blog.
 	# Twitter post sharing
 	set :twitter_username, "aley"
 	set :enable_twitter_sharing, true # Set to false if you don't want to become famous on Twitter.
-end
-
-RedisPagination.configure do |configuration|
-  configuration.redis = @@redis
-  configuration.page_size = 2
 end

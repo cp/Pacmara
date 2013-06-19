@@ -1,10 +1,11 @@
-%w{sinatra redis json sinatra/flash redis_pagination}.each { |x| require x }
+%w{sinatra redis json sinatra/flash}.each { |x| require x }
 
 ENV['REDISTOGO_URL'] = 'redis://localhost:6379' unless ENV['REDISTOGO_URL']
 uri = URI.parse(ENV['REDISTOGO_URL'])
 @@redis = Redis.new(host: uri.host, port: uri.port, password: uri.password)
 
 require_relative 'configure.rb'
+
 enable :sessions # You should leave this alone.
 
 helpers do    
@@ -52,10 +53,7 @@ get '/post/:slug/delete' do
 end
 
 get '/' do
-	@list = RedisPagination.paginate(settings.db_list_title)
-	params[:page] ||= 1
-	if params[:page].to_i > @list.total_pages then redirect "?page=#{@list.total_pages}" end
-	@posts = @list.page(params[:page].to_i)
+	@posts = @@redis.LRANGE('posts', '-100', '100').reverse
 	@page_title = settings.title
 	erb :index
 end
